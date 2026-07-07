@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Generated artifacts (keep the repo clean; these are reproducible via the commands in README)
+outputs/*
+!outputs/.gitkeep
+
+# Data is often private/large — keep folder structure, not the actual CSVs
+data/*.csv
+!data/.gitkeep
