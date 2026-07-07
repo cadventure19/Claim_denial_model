@@ -55,7 +55,7 @@ Place your data under `data/`:
 **1. Train** (fits preprocessor + model, evaluates on validation, saves `outputs/model.pkl`):
 
 ```bash
-python -m src.train --data_path data/claims_history.csv --model logreg --seed 42
+python -m src.train --data_path data/claims_history.csv --model logreg --seed 42 --run_eda
 ```
 
 Optional flags:
@@ -76,25 +76,25 @@ This writes `outputs/confusion_matrix_test.png`, `outputs/score_bucket_summary_t
 **3. Predict / Score new claims**:
 
 ```bash
-python -m src.predict --model_path outputs/model.pkl --data_path data/current_claims.csv --output_path outputs/final_data.csv
+python -m src.predict --model_path outputs/model.pkl --data_path data/current_claims.csv --output_path outputs/predictions_current_claims.csv
 ```
 
-This prints the top 10 highest-risk claims and writes the full scored dataset (with `High_score`, `Risk_Tier`, `Top_drivers`, `Prompt_Context` columns) to `outputs/final_data.csv`.
+This prints the top 10 highest-risk claims and writes the full scored dataset (with `High_score`, `Risk_Tier`, `Top_drivers`, `Prompt_Context` columns) to `outputs/predictions_current_claims.csv`.
 
 > Run all commands from the repository root so the `src` package resolves correctly (`python -m src.train ...`, not `python src/train.py ...`).
 
-**4. (Optional) LLM audit explanations** — print a plain-English, 2-line risk explanation per claim using an LLM (via OpenRouter), based on the `Prompt_Context` already computed in `outputs/final_data.csv`. This only **prints** the responses; it does not modify or re-save the CSV.
+**4. (Optional) LLM audit explanations** — print a plain-English, 2-line risk explanation per claim using an LLM (via OpenRouter), based on the `Prompt_Context` already computed in `outputs/predictions_current_claims.csv`. This only **prints** the responses; it does not modify or re-save the CSV.
 
 ```bash
 export OPENROUTER_API_KEY=sk-...          # Windows PowerShell: $env:OPENROUTER_API_KEY = "sk-..."
-python -m src.llm_audit --data_path outputs/final_data.csv
+python -m src.llm_audit --data_path outputs/predictions_current_claims.csv
 ```
 
 Optional flags:
 
 ```bash
 # Only audit the first 5 claims, and use a specific OpenRouter model
-python -m src.llm_audit --data_path outputs/final_data.csv --limit 5 --model openrouter/free
+python -m src.llm_audit --data_path outputs/predictions_current_claims.csv --limit 5 --model openrouter/free
 ```
 
 ## Notes on Explainability

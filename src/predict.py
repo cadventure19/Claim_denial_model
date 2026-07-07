@@ -6,7 +6,7 @@ Scores a new batch of claims (e.g. current_claims.csv) using an already
 
 CLI usage:
     python -m src.predict --model_path outputs/model.pkl \\
-        --data_path data/current_claims.csv --output_path outputs/final_data.csv
+        --data_path data/current_claims.csv --output_path outputs/predictions_current_claims.csv
 """
 
 import argparse
@@ -91,7 +91,7 @@ def parse_args():
     parser.add_argument("--data_path", type=str, default=config.DEFAULT_CURRENT_CLAIMS_PATH,
                          help="Path to the new/unlabeled claims CSV to score")
     parser.add_argument("--output_path", type=str,
-                         default=f"{config.DEFAULT_OUTPUT_DIR}/final_data.csv",
+                         default=f"{config.DEFAULT_OUTPUT_DIR}/predictions_current_claims.csv",
                          help="Where to write the scored claims CSV")
     parser.add_argument("--top_k", type=int, default=10,
                          help="How many highest-risk claims to print to console")
